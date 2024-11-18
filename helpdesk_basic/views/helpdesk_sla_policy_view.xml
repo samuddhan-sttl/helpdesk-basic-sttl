@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- SLA Policies -->
+    <record id="helpdesk_sla_tree" model="ir.ui.view">
+        <field name="name">SLA Policies</field>
+        <field name="model">helpdesk.sla</field>
+        <field name="arch" type="xml">
+            <tree string="SLA Policies">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="condition_team_id"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="helpdesk_sla_search" model="ir.ui.view">
+        <field name="name">Search SLA Policies</field>
+        <field name="model">helpdesk.sla</field>
+        <field name="arch" type="xml">
+            <search string="Search SLA Policies">
+                <field name="name"/>
+                <field name="condition_team_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="helpdesk_sla_form" model="ir.ui.view">
+        <field name="name">SLA Policies</field>
+        <field name="model">helpdesk.sla</field>
+        <field name="arch" type="xml">
+            <form string="SLA Policy">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive"
+                                attrs="{'invisible': [('active', '=', True)]}">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Close urgent tickets in 36 hours"/></h1>
+                    </div>
+                    <group>
+                        <group string="Apply on">
+                            <field name="condition_team_id"/>
+                            <field name="condition_priority" widget="priority"/>
+                            <field name="condition_type_id"/>
+                        </group>
+                        <group string="Target">
+                            <field name="condition_stage_id" string="Reach Stage"/>
+                            <!-- <label string="Before"/> -->
+                            <div>
+                                <field name="time_days" class="oe_inline"/> days<br/>
+                                <field name="time_hours" class="oe_inline"/> hours<br/>
+                                <field name="time_minutes" class="oe_inline"/> minutes
+                            </div>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Description of the policy..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="helpdesk_sla_act" model="ir.actions.act_window">
+        <field name="name">SLA Policies</field>
+        <field name="res_model">helpdesk.sla</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to create a new Service Level Agreement (SLA) policy.
+          </p><p>
+            A service level agreement is a contract between you and your
+            customers that specifies performance measures for support
+            by ticket priority.
+          </p><p>
+            For example, we respond to urgent tickets related to bugs
+            intwo hours and resolve them within 36 hours.
+          </p>
+        </field>
+    </record>
+    <menuitem
+        action="helpdesk_sla_act"
+        id="menu_helpdesk_sla_act"
+        sequence="4" parent="menu_helpdesk_config"/>
+</odoo>
