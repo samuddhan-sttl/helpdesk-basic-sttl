@@ -19,7 +19,9 @@ class ResConfigSettings(models.TransientModel):
         get_param = self.env['ir.config_parameter'].sudo().get_param
         res.update(
             use_project=get_param('helpdesk_basic.use_project'),
-            use_website_form=get_param('helpdesk_basic.use_website_form')
+            use_website_form=get_param('helpdesk_basic.use_website_form'),
+            module_website_helpdesk=get_param('helpdesk_basic.module_website_helpdesk'),
+            module_helpdesk_project_ext=get_param('helpdesk_basic.module_website_helpdesk'),
         )
         return res
 
@@ -28,3 +30,6 @@ class ResConfigSettings(models.TransientModel):
         set_param = self.env['ir.config_parameter'].sudo().set_param
         set_param('helpdesk_basic.use_project', self.use_project)
         set_param('helpdesk_basic.use_website_form', self.use_website_form)
+        set_param('helpdesk_basic.module_website_helpdesk', self.module_website_helpdesk)
+        set_param('helpdesk_basic.module_helpdesk_project_ext', self.module_helpdesk_project_ext)
+        
