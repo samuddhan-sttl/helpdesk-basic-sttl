@@ -29,12 +29,6 @@ class HelpdeskTeam(models.Model):
     kanban_dashboard_graph = fields.Text(
         compute='_compute_kanban_dashboard_graph')
     customer_ids = fields.Many2many('res.partner', string="Customers")
-    notify_team_on_ticket_creation = fields.Boolean(string="Notify the team members on ticket creation")
-    # notify_assignee_on_ticket_creation = fields.Boolean(string="Notify Assignee on ticket assigned")
-    notify_customer_on_ticket_assigned = fields.Boolean(string="Notify Customer on ticket assigned")
-    notify_on_stage_change = fields.Boolean(string="Notify on Stage change")
-    # audio_notify_on_create = fields.Boolean('Create Notification Sound')
-    # audio_notify_on_assign = fields.Boolean('Assign Notification Sound')
 
     @api.model
     def _default_create_mail(self):
@@ -45,8 +39,7 @@ class HelpdeskTeam(models.Model):
         return self.env.ref('helpdesk_basic.ticket_confirm_mail_template').id
 
     mail_template_id = fields.Many2one('mail.template', string="Create Mail Template", required=True, default=_default_create_mail)
-    mail_close_tmpl_id = fields.Many2one('mail.template', string="Close Mail Template", default=_default_confirm_mail)
-
+    mail_close_tmpl_id = fields.Many2one('mail.template', string="Confirm Mail Template", default=_default_confirm_mail)
     assignment_method = fields.Selection([('manually', 'Manually'),
                                         ('random', 'Random'),
                                         ('balanced', 'Balanced')],

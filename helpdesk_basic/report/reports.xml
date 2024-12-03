@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_report_resolved_tickets_xlsx" model="ir.actions.report">
+        <field name="name">Resolved Tickets XLSX</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">helpdesk_basic.resolved_tickets_xls</field>
+        <field name="report_file">helpdesk_basic.resolved_tickets_xls</field>
+        <field name="print_report_name">"Resolved Tickets"</field>
+        <field name="binding_model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

@@ -67,8 +67,4 @@
         <field name="groups" eval="[(4, ref('helpdesk_group_manager'))]"/>
     </record>
 
-    <record model="res.groups" id="helpdesk_group_can_delete_ticket">
-        <field name="name">Can Delete Ticket</field>
-    </record>
-
 </odoo>

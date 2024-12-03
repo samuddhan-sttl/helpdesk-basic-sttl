@@ -21,22 +21,19 @@
             <form string="Team Members">
                 <sheet>
                     <div class="oe_button_box" name="button_box"/>
-                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
-                            attrs="{'invisible': [('active', '=', True)]}"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
                     <div class="oe_title" id='title'>
                         <label for="name" class="oe_edit_only"/>
-                        <h1 id="name">
-                            <field name="name" placeholder="Helpdesk Team..."/>
-                        </h1>
+                        <h1 id="name"><field name="name" placeholder="Helpdesk Team..."/></h1>
                     </div>
                     <div class="row mt16 o_settings_container">
                         <div class="col-lg-6 o_setting_box"
                              title="With random assignation, every user gets the same number of tickets. With balanced assignation, tickets are assigned to the user with the least amount of open tickets.">
                             <div class="o_setting_right_pane">
-                                <label for="assignment_method"/>
-                                <div class="text-muted">
-                                    How to assign newly created tickets to the right person.
-                                </div>
+                                    <label for="assignment_method"/>
+                                    <div class="text-muted">
+                                        How to assign newly created tickets to the right person.
+                                    </div>
                                 <div class="o_field_radio o_vertical o_field_widget o_required_modifier mt16 o_light_label">
                                     <field name="assignment_method" widget="radio"/>
                                 </div>
@@ -46,155 +43,50 @@
                             <div class="o_setting_right_pane">
                                 <label for="visibility_member_ids">Team Visibility</label>
                                 <div class="text-muted">
-                                    Team Members to whom this team will be visible. Keep empty for everyone to see this
-                                    team.
-                                </div>
-                                <div>
-                                    <field name="visibility_member_ids"
-                                           widget="many2many_tags"/>
-                                </div>
+                                Team Members to whom this team will be visible. Keep empty for everyone to see this team.
+                            </div>
+                            <div>
+                                <field name="visibility_member_ids" 
+                                    widget="many2many_tags"/>
+                            </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="row mt16 o_settings_container">
-                        <div class="col-lg-6 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="is_rating"/>
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="is_rating">Ratings On Tickets</label>
-                                <div class="text-muted">
-                                    Allow your customers to easily rate your services. Activate this option will add a
-                                    default
-                                    email template on non folded closing stages.
-                                </div>
-
-                            </div>
+                    <div>
+                        <field name="is_rating"/><label for="is_rating">Ratings On Tickets</label>
+                        <div class="text-muted">
+                            Allow your customers to easily rate your services. Activate this option will add a default email template on non folded closing stages.
                         </div>
-
-                        <div class="col-lg-6 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="notify_team_on_ticket_creation"/>
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="notify_team_on_ticket_creation">Allow notify team members on ticket creation</label>
-                                <div class="text-muted">
-                                    Notify team members on ticket creation.
-                                </div>
-
-                            </div>
-                        </div>
-
-<!--                        <div class="col-lg-6 o_setting_box">-->
-<!--                            <div class="o_setting_left_pane">-->
-<!--                                <field name="notify_assignee_on_ticket_creation"/>-->
-<!--                            </div>-->
-<!--                            <div class="o_setting_right_pane">-->
-<!--                                <label for="notify_assignee_on_ticket_creation">Allow notify assigned members on ticket assigned</label>-->
-<!--                                <div class="text-muted">-->
-<!--                                    Notify assigned members while ticket assigned.-->
-<!--                                </div>-->
-
-<!--                            </div>-->
-<!--                        </div>-->
-
-                        <div class="col-lg-6 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="notify_on_stage_change"/>
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="notify_on_stage_change">Allow notify customer on ticket stage changes</label>
-                                <div class="text-muted">
-                                    Notify customer while ticket stage change (Only in cancel and close stage).
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="notify_customer_on_ticket_assigned"/>
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="notify_customer_on_ticket_assigned">Allow notify customer on ticket assigned</label>
-                                <div class="text-muted">
-                                    Notify customer while ticket assigned to team member.
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <!-- <div class="col-lg-6 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="audio_notify_on_create"/>
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="audio_notify_on_create">Allow audio notification to team members on ticket creation</label>
-                                <div class="text-muted">
-                                    Audio Notification to team members on ticket creation.
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 o_setting_box">
-                            <div class="o_setting_left_pane">
-                                <field name="audio_notify_on_assign"/>
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="audio_notify_on_assign">Allow notify the user on ticket assign</label>
-                                <div class="text-muted">
-                                    Audio Notification to user while ticket assigned.
-                                </div>
-
-                            </div>
-                        </div> -->
-
-
-
                     </div>
-
                     <group col="4">
                         <field name="stage_ids" widget="many2many_tags"
-                               required="1" options='{"no_create": True}'/>
+                                   required="1"/>
                         <field name="issue_type_ids" required="1"
-                               widget="many2many_tags"/>
-
-
+                                   widget="many2many_tags"/>
+                        <field name="mail_template_id"/>
+                        <field name="mail_close_tmpl_id"/>
                         <field name="company_id" groups="base.group_multi_company" required="1"/>
                         <field name="active" invisible="1"/>
                     </group>
-                    <group string="Mail Templtes">
-                        <group>
-                            <field name="mail_template_id"/>
-
-                        </group>
-                        <group>
-                            <field name="mail_close_tmpl_id" invisible="1"/>
-                        </group>
-                    </group>
                     <group name="group_alias">
                         <div class="mt16">
-                            <div class="oe_edit_only d-flex">
-                                <label for="alias_id" string="Send emails to:"/>
-                                <field name="alias_name" class="col-md-4"/>@
-                                <field name="alias_domain" class="oe_inline" readonly="1"/>
+                        <div class="oe_edit_only d-flex">
+                            <label for="alias_id" string="Send emails to:"/>
+                            <field name="alias_name" class="col-md-4"/>@<field name="alias_domain" class="oe_inline" readonly="1"/>
                                 to create tickets
-                            </div>
-                            <p class="oe_read_only">Send emails to
-                                <strong>
-                                    <field name="alias_id" class="oe_read_only oe_inline" required="False"/>
-                                </strong>
-                                to create tickets
-                            </p>
                         </div>
+                        <p class="oe_read_only">Send emails to
+                            <strong>
+                                <field name="alias_id" class="oe_read_only oe_inline" required="False"/>
+                            </strong>
+                            to create tickets
+                        </p>
+                    </div>
                     </group>
                     <field name="description" placeholder="Description for customer portal"/>
                     <div class="mt-3 border-top">
                         <div class="oe_chatter" groups="base.group_user">
-                            <field name="message_follower_ids"
-                                   help="Follow this team to automatically track the events associated to tickets of this team."/>
+                            <field name="message_follower_ids" help="Follow this team to automatically track the events associated to tickets of this team."/>
                         </div>
                     </div>
                     <notebook>
@@ -386,7 +278,7 @@
                                            type="action"
                                            context="{'search_default_team_id': [active_id], 'default_team_id': active_id}">
                                             <field name="helpdesk_count"/>
-                                            Issues
+                                            Open Issues
                                         </a>
                                     </div>
                                     <div class="col-xs-4">
@@ -394,9 +286,9 @@
                                     <div class="issue_type_css col-xs-4">
                                         <field name="issue_type_ids"/>
                                     </div>
-                                    <div class="issue_type_css col-xs-4"
-                                         id="unassigned_issues">
-                                        <a name="%(action_helpdesk_view_unassigned)d"
+                                    <div class="issue_type_css col-xs-4" 
+                                        id="unassigned_issues">
+                                        <a name="%(sttl_action_helpdesk_view)d"
                                            type="action"
                                            context="{'search_default_team_id': [active_id], 'default_team_id': active_id}">
                                             <field name="unassigned_issues"/>
@@ -443,7 +335,6 @@
         <field name="res_model">helpdesk.team</field>
         <field name="view_mode">kanban,form</field>
         <field name="view_id" ref="team_dashboard_view"/>
-        <field name="domain">[('visibility_member_ids', 'in', uid)]</field>
     </record>
 
     <menuitem id="helpdesk_team_menu" parent="menu_helpdesk_config"
@@ -452,6 +343,6 @@
     <menuitem name="Dashboard" id="menu_helpdesk_dashboard"
               parent="helpdesk_basic_root_menu" sequence="1"
               action="act_team_dashboard_view"
-    />
+              />
 
 </odoo>

@@ -12,6 +12,24 @@
         </field>
     </record>
 
+    <record id="view_helpdesk_resolved_tickets" model="ir.ui.view">
+        <field name="name">helpdesk.resolved.ticket</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree default_order="ticket_seq desc">
+                <field name="ticket_seq"/>
+                <field name="start_date"/>
+                <field name="issue_name"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="team_id"/>
+                <field name="stage_id"/>
+                <field name="resolved_date"/>
+            </tree>
+        </field>
+    </record>
+
     <record model="ir.ui.view" id="view_report_helpdesk_pivot">
         <field name="name">helpdesk.pivot</field>
         <field name="model">helpdesk.report</field>
@@ -33,10 +51,22 @@
         </field>
     </record>
 
+    <record id="action_helpdesk_resolved_report" model="ir.actions.act_window">
+        <field name="name">Resolved Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_helpdesk_resolved_tickets"/>
+        <field name="search_view_id" ref="view_helpdesk_search"/>
+        <field name="domain">[('stage_id.name', 'in', ['Resolved', 'Closed'])]</field>
+    </record>
+
     <menuitem id="helpdesk_report_main_menu" name="Reporting"
               parent="helpdesk_basic_root_menu" sequence="50"/>
     <menuitem id="helpdesk_report" name="Helpdesk Report"
               parent="helpdesk_report_main_menu" sequence="1"
               action="action_helpdesk_report"/>
+    <menuitem id="helpdesk_resolved_report" name="Resolved Tickets"
+              parent="helpdesk_report_main_menu" sequence="2"
+              action="action_helpdesk_resolved_report"/>
 
 </odoo>

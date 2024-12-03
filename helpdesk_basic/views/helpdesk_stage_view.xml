@@ -13,8 +13,6 @@
                         <field name="sequence" required="1"/>
                         <field name="stage_type"/>
                         <field name="description"/>
-                        <field name="mail_stage_tmpl_id" attrs="{'invisible': [('stage_type', 'not in', ['cancel','done'])]}"/>
-
                     </group>
                 </sheet>
             </form>

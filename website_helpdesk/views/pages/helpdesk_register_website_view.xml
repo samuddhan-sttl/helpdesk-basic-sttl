@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- rgb(170,126,251)/AA7EFB -->
+    <template id="helpdesk_form" name="Helpdesk Form">
+        <t t-call="portal.portal_layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section>
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-10">
+                                <div class="card shadow">
+                                    <div class="card-header bg-primary text-white">
+                                        <h3 class="card-title mb-0">Helpdesk: Issue Form</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <form method="post" action="/issue-submitted"
+                                            id="helpdesk_form">
+                                            <input type="hidden" name="csrf_token"
+                                                t-att-value="request.csrf_token()" />
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" class="form-control"
+                                                        id="username" t-att-value="username"
+                                                        placeholder="Name" readonly="1"/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="email">Email</label>
+                                                    <input type="email" class="form-control"
+                                                        name="email" id="email" t-att-value="email"
+                                                        placeholder="Enter your email" readonly="1"/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="issue_type_id">Helpdesk Team</label>
+
+                                                    <select name="issue_type_id" id="issue_type_id"
+                                                        class="form-control issue_type_selection_field"
+                                                        required="1">
+                                                        <!-- <option value="0">Select Team</option> -->
+                                                        <t t-foreach="helpdesk_team or []" t-as="team">
+                                                            <option t-att-value="team.id">
+                                                                <t t-esc="team.name" />
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="contact_number">Contact Number</label>
+                                                    <input type="text" class="form-control"
+                                                        name="contact_number" id="contact_num"
+                                                        placeholder="Contact Number"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="issue_name">Subject</label>
+                                                    <input type="text" class="form-control"
+                                                        name="issue_name" id="issue_name"
+                                                        placeholder="Enter the subject" required="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="help_description">Description</label>
+                                                <textarea class="form-control" rows="5"
+                                                    name="help_description" id="help_description"
+                                                    placeholder="Provide a description of the issue" required="1"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="upload">Attachments</label>
+                                                <input type="file" class="form-control-file"
+                                                    name="file" id="upload" accept="image/*" multiple="1"/>
+                                                <div id="file_upload_data"></div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template t-name="issue_submitted" name="Issue Submitted">
+        <t t-call="portal.portal_layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="mt32 mb64">
+                    <div class="container">
+                        <div>
+                            <div class="text-center">
+                                <br></br>
+                                <h2>Thank You!</h2>
+                                <h2>We have received your issue #<span t-esc="ticket_seq" /> and
+                                    will try fix it soon. </h2>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

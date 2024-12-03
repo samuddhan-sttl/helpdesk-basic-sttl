@@ -34,8 +34,7 @@ class IssueType(models.Model):
             for stage in stage_ids:
                 context = \
                     "{'search_default_stage_id': %d, " \
-                    "'search_default_issue_type_id': %d}" % (
-                        stage.id, types.id)
+                    "'search_default_issue_type_id': %d}" % (stage.id, types.id)
                 tickets = ticket.search(
                     [('issue_type_id', '=', types.id),
                      ('stage_id', '=', stage.id)])
@@ -44,29 +43,19 @@ class IssueType(models.Model):
                                'ticket_ids': tickets.ids})
             types.stages = json.dumps(stages)
 
-    def action_tickets(self):
+    def action_create_new(self):
         ctx = self._context.copy()
-        tickets = self.env["helpdesk.ticket"].search(
-            [("issue_type_id", "=", self.id)])
         model = 'helpdesk.ticket'
-        if tickets:
-            action = self.env.ref(
-                'helpdesk_basic.action_helpdesk_view').read()[0]
-            action.update({
-                'domain': [('id', 'in', tickets.ids)]
-            })
-            return action
-        else:
-            view_id = self.env.ref('helpdesk_basic.view_helpdesk_form').id
-            return {
-                'name': _('Create Ticket'),
-                'type': 'ir.actions.act_window',
-                'view_type': 'form',
-                'view_mode': 'form',
-                'res_model': model,
-                'view_id': view_id,
-                'context': {'default_issue_type_id': ctx.get("active_ids")},
-            }
+        view_id = self.env.ref('helpdesk_basic.view_helpdesk_form').id
+        return {
+            'name': _('Create Ticket'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': model,
+            'view_id': view_id,
+            'context': ctx,
+        }
 
     def _compute_kanban_dashboard_graph(self):
         for record in self:

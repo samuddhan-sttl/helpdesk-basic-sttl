@@ -3,98 +3,105 @@
     <!--Email template -->
     <record id="ticket_mail_template" model="mail.template">
         <field name="name">Helpdesk Ticket : Send By Email</field>
-        <field name="subject">Your Ticket has been Generated - {{ object.ticket_seq }}</field>
-        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}
-        </field>
-        <field name="email_to">{{ (object.partner_id.email if object.partner_id.email and object.partner_id.email ==
-            object.email else object.email) }}
-        </field>
-        <field name="partner_to">{{ object.partner_id.id if object.partner_id.email and object.partner_id.email ==
-            object.email else False }}
-        </field>
+        <field name="subject">{{ (object.ticket_seq) }} - {{(object.issue_name)}}</field>
+        <field name="email_from">{{ (object.team_id.alias_name)}}@{{(object.team_id.alias_domain) }}</field>
+        <field name="email_to">{{ (object.partner_id.email if object.partner_id.email and object.partner_id.email == object.email else object.email) }}</field>
+        <field name="partner_to">{{ object.partner_id.id if object.partner_id.email and object.partner_id.email == object.email else False }}</field>
         <field name="model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
-                <h6>Dear
-                    <t t-if="object.partner_id">
-                        <t t-out="object.partner_id.name or ''"/>
+                <h2 style="margin:0px 0 6px 0;box-sizing:border-box;font-size:19.5px;color:#212529;line-height:1.2;font-weight:bold;">
+                    Dear
+                    <t t-if="object.partner_id" data-oe-t-group="0" data-oe-t-selectable="true"
+                       data-oe-t-group-active="true" data-oe-t-inline="true">
+                        <t t-out="object.partner_id.name or ''" contenteditable="false" data-oe-t-inline="true"></t>
                     </t>
-                    <t t-else="">
-                        <t t-out="object.partner_name or ''"/>
+                    <t t-else="" data-oe-t-selectable="true" data-oe-t-group="0" data-oe-t-inline="true">
+                        <t t-out="object.user_id.name or ''" contenteditable="false" data-oe-t-inline="true"></t>
                     </t>
-                </h6>
-                <p>Thank you for reaching out to<t t-out="object.team_id.name or ''"/>. We appreciate your patience and
-                    are here to assist you with your inquiry.
+                </h2>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Your request has been received and is being
+                    reviewed by our <t t-out="object.team_id.name or ''" contenteditable="false" data-oe-t-inline="true"></t>.
                     <br/>
-                    We have received your ticket with the number
-                    <strong>
-                        <t t-out="object.ticket_seq or ''"/>
-                    </strong>
-                    , and we are working on resolving your issue as quickly as possible.
-                    <br/>
-                    <br/>
-                    <div style="margin-top: 20px;">
-                        <a t-attf-href="/my/ticket/{{ object.id }}"
-                           target="_blank"
-                           style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
-                            View Ticket
-                        </a>
-                    </div>
-                    <br/>
-                    Thank you,
-                    <br/>
-                    <br/>
-                    <t t-out="object.team_id.name or ''"/>
                 </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Thank you for reaching out to us. We have
+                    received your request, and a ticket has been successfully created to address your inquiry.
+                    Please find the details of your ticket below:
+                </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                    <strong style="box-sizing:border-box;font-weight:bolder;">Ticket Date:</strong>
+                    <t t-out="object.start_date.date()"/>
+                </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                    <strong style="box-sizing:border-box;font-weight:bolder;">Ticket ID: </strong>
+                    <t t-out="object.ticket_seq"/>
+                </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                    <strong style="box-sizing:border-box;font-weight:bolder;">Subject: </strong>
+                    <t t-out="object.ticket_seq"/> - <t t-out="object.issue_name"/>
+                </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Our team is currently reviewing the details
+                    you provided, and we will strive to address your concerns as promptly as possible. Please be
+                    assured that your request is important to us, and we appreciate your patience.
+                </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">If you have any additional information to add
+                    or if there are updates on your end, please feel free to reply to this email, including the
+                    ticket number in the subject line. This will help us expedite the resolution process.
+                </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">We understand the importance of your request
+                    and will make every effort to provide a comprehensive and timely response. Our support team will
+                    reach out to you shortly with further updates.
+                </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Thank you for choosing Silver Touch<br/></p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">We value your business and look forward to
+                    assisting you.
+                </p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                    <br/>
+                </p>
+                <div style="margin-top: 20px;">
+                    <a t-attf-href="/my/ticket/{{ object.id }}" target="_blank"
+                       style="box-sizing:border-box;background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
+                        View Ticket
+                    </a>
+                </div>
+                <br/>
+                Thank you,
+                <br/>
+                <br/>
+                <t t-out="object.team_id.name or ''" contenteditable="false" data-oe-t-inline="true"></t>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;"></p>
             </div>
         </field>
+        <field name="auto_delete" eval="False"/>
     </record>
 
     <record id="ticket_confirm_mail_template" model="mail.template">
         <field name="name">Helpdesk Ticket : Confirm By Email</field>
         <field name="subject">Confirm Ticket Mail</field>
-        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}
-        </field>
-        <field name="email_to">{{ (object.partner_id.email if object.partner_id.email and object.partner_id.email ==
-            object.email else object.email) }}
-        </field>
-        <field name="partner_to">{{ object.partner_id.id if object.partner_id.email and object.partner_id.email ==
-            object.email else False }}
-        </field>
+        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}</field>
+        <field name="email_to">{{ (object.partner_id.email if object.partner_id.email and object.partner_id.email == object.email else object.email) }}</field>
+        <field name="partner_to">{{ object.partner_id.id if object.partner_id.email and object.partner_id.email == object.email else False }}</field>
         <field name="model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
-                <h6>Dear
+                <h2>Dear
                     <t t-if="object.partner_id">
                         <t t-out="object.partner_id.name or ''"/>
                     </t>
                     <t t-else="">
                         <t t-out="object.user_id.name or ''"/>
                     </t>
-                </h6>
-                <p>We are pleased to inform you that your ticket with the number
-                    <strong>
-                        <t t-out="object.ticket_seq or ''"/>
-                    </strong>
-                    has been successfully resolved.
-                    <br/>
-                    Thank you for choosing<t t-out="object.team_id.name or ''"/>. We value your business and look
-                    forward to serving you again in the future.
-                    <br/>
-                    <br/>
-                    <div style="margin-top: 20px;">
-                        <a t-attf-href="/my/ticket/{{ object.id }}"
-                           target="_blank"
-                           style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
-                            View Ticket
-                        </a>
-                    </div>
-                    <br/>
-                    Thank you,
-                    <br/>
-                    <br/>
-                    <t t-out="object.team_id.name or ''"/>
-                </p>
+                </h2>
+                <p>Your request odoo has been Confirm by our <t t-out="object.team_id.name or ''"/>.<br/><br/>
+                <div style="margin-top: 20px;">
+                    <a t-attf-href="/my/ticket/{{ object.id }}"
+                       target="_blank"
+                       style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
+                        View Ticket
+                    </a></div><br/>
+                Thank you,<br/><br/>
+                <t t-out="object.team_id.name or ''"/></p>
             </div>
         </field>
     </record>
@@ -102,900 +109,45 @@
     <record id="ticket_rating_mail_template" model="mail.template">
         <field name="name">Helpdesk Ticket : Rating By Email</field>
         <field name="subject">Rating Request Mail</field>
-        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}
-        </field>
-        <field name="email_to">{{ (object.partner_id.email if object.partner_id.email and object.partner_id.email ==
-            object.email else object.email) }}
-        </field>
-        <field name="partner_to">{{ object.partner_id.id if object.partner_id.email and object.partner_id.email ==
-            object.email else False }}
-        </field>
+        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}</field>
+        <field name="email_to">{{ (object.partner_id.email if object.partner_id.email and object.partner_id.email == object.email else object.email) }}</field>
+        <field name="partner_to">{{ object.partner_id.id if object.partner_id.email and object.partner_id.email == object.email else False }}</field>
         <field name="model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
-
-                <p>Please take a moment to rate our services related to the ticket<t t-out="object.issue_name or ''"/>.
-                    <br/>
-                    <tr>
-                        <td style="text-align: center;">
-                            <table border="0" cellpadding="0" cellspacing="0" summary="o_mail_notification"
-                                   style="width:100%; margin: 32px 0px 32px 0px;">
+                
+                <p>Please take a moment to rate our services related to the ticket <t t-out="object.issue_name or ''"/>.<br/>
+                <tr><td style="text-align: center;">
+                    <table border="0" cellpadding="0" cellspacing="0" summary="o_mail_notification" style="width:100%; margin: 32px 0px 32px 0px;">
+                        <tr><td style="font-size: 14px;">
+                            <strong>Tell us how you feel about our service</strong><br/>
+                            <span style="text-color: #888888">(click on one of these smileys)</span>
+                        </td></tr>
+                        <tr><td style="font-size: 14px;">
+                            <table style="width:100%;text-align:center;">
                                 <tr>
-                                    <td style="font-size: 14px;">
-                                        <strong>Tell us how you feel about our service</strong>
-                                        <br/>
-                                        <span style="text-color: #888888">(click on one of these smileys)</span>
+                                    <td>
+                                        <a href="/rate/{{ object.access_token }}/5">
+                                            <img alt="Satisfied" src="/rating/static/src/img/rating_5.png" title="Satisfied"/>
+                                        </a>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 14px;">
-                                        <table style="width:100%;text-align:center;">
-                                            <tr>
-                                                <td>
-                                                    <a href="/rate/{{ object.access_token }}/5">
-                                                        <img alt="Satisfied" src="/rating/static/src/img/rating_5.png"
-                                                             title="Satisfied"/>
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <a href="/rate/{{ object.access_token }}/3">
-                                                        <img alt="Not satisfied"
-                                                             src="/rating/static/src/img/rating_3.png"
-                                                             title="Not satisfied"/>
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <a href="/rate/{{ object.access_token }}/1">
-                                                        <img alt="Highly Dissatisfied"
-                                                             src="/rating/static/src/img/rating_1.png"
-                                                             title="Highly Dissatisfied"/>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    <td>
+                                        <a href="/rate/{{ object.access_token }}/3">
+                                            <img alt="Not satisfied" src="/rating/static/src/img/rating_3.png" title="Not satisfied"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/rate/{{ object.access_token }}/1">
+                                            <img alt="Highly Dissatisfied" src="/rating/static/src/img/rating_1.png" title="Highly Dissatisfied"/>
+                                        </a>
                                     </td>
                                 </tr>
                             </table>
-                        </td>
-                    </tr>
-                    We appreciate your feedback. It helps us to improve continuously.
-                </p>
+                        </td></tr>
+                    </table>
+                </td></tr>
+                We appreciate your feedback. It helps us to improve continuously.</p>
             </div>
         </field>
     </record>
-
-
-    <record id="mail_template_ticket_stage_update" model="mail.template">
-        <field name="name">Helpdesk Ticket: Progress Update</field>
-        <field name="model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
-        <field name="subject">Update: Helpdesk Ticket {{ (object.ticket_seq) }} - Stage Changed to {{ ctx['stage_name']
-            }}
-        </field>
-        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}
-        </field>
-        <field name="partner_to">{{ object.partner_id.id if object.partner_id.email and object.partner_id.email ==
-            object.email else False }}
-        </field>
-        <field name="body_html" type="html">
-            <div style="margin: 0px; padding: 0px;">
-                <h6>Dear
-                    <t t-if="object.partner_id">
-                        <t t-out="object.partner_id.name or ''"/>
-                    </t>
-                    <t t-else="">
-                        <t t-out="object.user_id.name or ''"/>
-                    </t>
-                </h6>
-                <br/>
-                <p>Thank you for reaching out to the
-                    <strong><t t-out="object.team_id.name or ''"/>.
-                    </strong>
-                    We appreciate your patience and are here to assist you with your inquiry. .
-                </p>
-                <p>We have received your ticket with the number
-                    <strong><t t-out="object.ticket_seq or ''"/>,
-                        and we are working on resolving your issue as quickly as possible.
-                    </strong>
-                </p>
-                <div style="margin-top: 20px;">
-                    <a t-attf-href="/my/ticket/{{ object.id }}"
-                       target="_blank"
-                       style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
-                        View Ticket
-                    </a>
-                </div>
-                <br/>
-                <br/>
-                <p>Best regards,</p>
-                <t t-out="object.team_id.name or ''"/>
-            </div>
-        </field>
-    </record>
-
-
-    <!--    New Templates-->
-
-    <record id="new_ticket_mail_template" model="mail.template">
-        <field name="name">Helpdesk Ticket : New Ticket Send To Customer</field>
-        <field name="subject">Your Ticket has been Generated - {{ object.ticket_seq }}</field>
-        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}</field>
-        <field name="email_to">{{ (object.partner_id.email_formatted or object.email) }}</field>
-        <field name="reply_to">{{ object.team_id.alias_name }} @ {{ object.team_id.alias_domain }}</field>
-        <field name="model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
-        <field name="auto_delete" eval="False"/>
-        <field name="body_html" type="html">
-            <table border="0" cellpadding="0" cellspacing="0"
-                   style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
-                <tr>
-                    <td align="center">
-                        <table border="0" cellpadding="0" cellspacing="0" width="590"
-                               style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
-                            <tbody>
-                                <!-- HEADER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%"
-                                               style="background-color: white; padding: 0; border-collapse:separate;">
-                                            <tr>
-                                                <td valign="middle">
-                                                    <span style="font-size: 10px;">Your Helpdesk Ticket
-                                                        <!--                                                        <t t-esc="model_description or 'document'"/>-->
-
-                                                    </span>
-                                                    <br/>
-                                                    <span style="font-size: 20px; font-weight: bold;">
-
-                                                        <!--                                                        <t t-esc="message.record_name and message.record_name.replace('/','-') or ''"/>-->
-                                                        <t t-out="object.ticket_seq or ''"/>
-                                                        -
-                                                        <t t-out="object.issue_name or ''"/>
-
-                                                    </span>
-                                                </td>
-                                                <td valign="middle" align="right">
-                                                    <img t-att-src="'/logo.png?company=%s' % (object.team_id.company_id.id or 0)"
-                                                         style="padding: 0px; margin: 0px; height: 48px;"
-                                                         t-att-alt="'%s' % object.team_id.company_id.name"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2" style="text-align:center;">
-                                                    <hr width="100%"
-                                                        style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 32px 0px;"/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <!-- CONTENT -->
-                                <tr>
-                                    <td style="min-width: 590px;">
-                                        <div>
-                                            <h6>Dear
-                                                <t t-if="object.partner_id">
-                                                    <t t-out="object.partner_id.name or ''"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <t t-out="object.user_id.name or ''"/>
-                                                </t>
-                                            </h6>
-                                            <p>Thank you for reaching out to<t t-out="object.team_id.name or ''"/>. We
-                                                appreciate your patience and
-                                                are here to assist you with your inquiry.
-                                                <br/>
-                                                We have received your request, and a ticket has been successfully
-                                                created to address your inquiry.
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Please find the details of your ticket below:</strong>
-                                                <br/>
-                                                <br/>
-                                                <strong>Ticket Creation Date:</strong>
-                                                <t t-esc="object.create_date.strftime('%Y-%m-%d %H:%M') if object.create_date else ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket ID:</strong>
-                                                <t t-out="object.ticket_seq or ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket Subject:</strong>
-                                                <t t-out="object.issue_name or ''"/>
-
-                                                <br/>
-                                                <br/>
-
-                                                <div style="margin-top: 20px;">
-                                                    <a t-attf-href="/my/ticket/{{ object.id }}"
-                                                       target="_blank"
-                                                       style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
-                                                        View Ticket
-                                                    </a>
-                                                </div>
-
-                                                <br/>
-                                                Thank you,
-                                                <br/>
-
-                                                <br/>
-                                                <t t-out="object.team_id.name or ''"/>
-                                            </p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- FOOTER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;font-size:11px;">
-                                        <hr width="100%"
-                                            style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
-                                        <!--                                        <b t-esc="company.name"/>-->
-                                        <b t-out="object.team_id.company_id.name or ''"/>
-                                        <br/>
-                                        <div style="color: #999999;">
-                                            <t t-esc="object.team_id.company_id.phone"/>
-                                            <t t-if="object.team_id.company_id.email">|
-                                                <a t-att-href="'mailto:%s' % object.team_id.company_id.email"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.email"/>
-                                                </a>
-                                            </t>
-                                            <t t-if="object.team_id.company_id.website">|
-                                                <a t-att-href="'%s' % object.team_id.company_id.website"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.website"/>
-                                                </a>
-                                            </t>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <!-- POWERED BY -->
-                <tr>
-                    <td align="center" style="min-width: 590px;">
-                        Powered by
-                        <a target="_blank" href="https://www.odoo.com?utm_source=db&amp;utm_medium=email"
-                           style="color: #875A7B;">Odoo
-                        </a>
-                    </td>
-                </tr>
-            </table>
-
-        </field>
-    </record>
-
-    <record id="new_ticket_team_member_mail_template" model="mail.template">
-        <field name="name">Helpdesk Ticket: Team Member</field>
-        <field name="subject">New Ticket has been Generated - {{ object.ticket_seq }}</field>
-        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}</field>
-        <field name="email_to">{{ ctx.get('email_to_members') }}</field>
-        <field name="reply_to">{{ object.team_id.alias_name }} @ {{ object.team_id.alias_domain }}</field>
-        <field name="model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
-        <field name="auto_delete" eval="False"/>
-        <field name="body_html" type="html">
-            <table border="0" cellpadding="0" cellspacing="0"
-                   style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
-                <tr>
-                    <td align="center">
-                        <table border="0" cellpadding="0" cellspacing="0" width="590"
-                               style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
-                            <tbody>
-                                <!-- HEADER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%"
-                                               style="background-color: white; padding: 0; border-collapse:separate;">
-                                            <tr>
-                                                <td valign="middle">
-                                                    <span style="font-size: 10px;">Your Helpdesk Ticket
-                                                        <!--                                                        <t t-esc="model_description or 'document'"/>-->
-
-                                                    </span>
-                                                    <br/>
-                                                    <span style="font-size: 20px; font-weight: bold;">
-
-                                                        <!--                                                        <t t-esc="message.record_name and message.record_name.replace('/','-') or ''"/>-->
-                                                        <t t-out="object.ticket_seq or ''"/>
-                                                        -
-                                                        <t t-out="object.issue_name or ''"/>
-
-                                                    </span>
-                                                </td>
-                                                <td valign="middle" align="right">
-                                                    <img t-att-src="'/logo.png?company=%s' % (object.team_id.company_id.id or 0)"
-                                                         style="padding: 0px; margin: 0px; height: 48px;"
-                                                         t-att-alt="'%s' % object.team_id.company_id.name"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2" style="text-align:center;">
-                                                    <hr width="100%"
-                                                        style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 32px 0px;"/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <!-- CONTENT -->
-                                <tr>
-                                    <td style="min-width: 590px;">
-                                        <div>
-                                            <h5>Dear Team</h5>
-                                            <p>We received a support ticket from a
-                                                <strong>
-                                                    <t t-out="object.email or ''"/>
-                                                </strong>
-                                                .
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Below are the details of the ticket:</strong>
-                                                <br/>
-                                                <br/>
-                                                <strong>Ticket Creation Date:</strong>
-                                                <t t-esc="object.create_date.strftime('%Y-%m-%d %H:%M') if object.create_date else ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket ID:</strong>
-                                                <t t-out="object.ticket_seq or ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket Subject:</strong>
-                                                <t t-out="object.issue_name or ''"/>
-
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Priority:</strong>
-                                                <t t-out="object.priority or ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Email Body (Description):</strong>
-                                                <t t-out="object.help_description or ''"/>
-                                                <br/>
-                                                <br/>
-
-
-                                                <div style="margin-top: 20px;">
-                                                    <a t-attf-href="/my/ticket/{{ object.id }}"
-                                                       target="_blank"
-                                                       style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
-                                                        View Ticket
-                                                    </a>
-                                                </div>
-
-                                                <br/>
-                                                Thank you,
-                                                <br/>
-
-                                                <!--                    <br/>-->
-                                                <!--                    <t t-out="object.team_id.name or ''"/>-->
-                                            </p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- FOOTER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;font-size:11px;">
-                                        <hr width="100%"
-                                            style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
-                                        <!--                                        <b t-esc="company.name"/>-->
-                                        <b t-out="object.team_id.company_id.name or ''"/>
-                                        <br/>
-                                        <div style="color: #999999;">
-                                            <t t-esc="object.team_id.company_id.phone"/>
-                                            <t t-if="object.team_id.company_id.email">|
-                                                <a t-att-href="'mailto:%s' % object.team_id.company_id.email"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.email"/>
-                                                </a>
-                                            </t>
-                                            <t t-if="object.team_id.company_id.website">|
-                                                <a t-att-href="'%s' % object.team_id.company_id.website"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.website"/>
-                                                </a>
-                                            </t>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <!-- POWERED BY -->
-                <tr>
-                    <td align="center" style="min-width: 590px;">
-                        Powered by
-                        <a target="_blank" href="https://www.odoo.com?utm_source=db&amp;utm_medium=email"
-                           style="color: #875A7B;">Odoo
-                        </a>
-                    </td>
-                </tr>
-            </table>
-
-        </field>
-    </record>
-
-    <record id="ticket_assignee_mail_template" model="mail.template">
-        <field name="name">Helpdesk Ticket: Assignee</field>
-        <field name="subject">New Ticket has been Assigned - {{ object.ticket_seq }}</field>
-        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}</field>
-        <field name="email_to">{{ (object.user_id.partner_id.email) }}</field>
-        <field name="reply_to">{{ object.team_id.alias_name }} @ {{ object.team_id.alias_domain }}</field>
-        <field name="model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
-        <field name="auto_delete" eval="False"/>
-        <field name="body_html" type="html">
-            <table border="0" cellpadding="0" cellspacing="0"
-                   style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
-                <tr>
-                    <td align="center">
-                        <table border="0" cellpadding="0" cellspacing="0" width="590"
-                               style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
-                            <tbody>
-                                <!-- HEADER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%"
-                                               style="background-color: white; padding: 0; border-collapse:separate;">
-                                            <tr>
-                                                <td valign="middle">
-                                                    <span style="font-size: 10px;">Your Helpdesk Ticket
-                                                        <!--                                                        <t t-esc="model_description or 'document'"/>-->
-
-                                                    </span>
-                                                    <br/>
-                                                    <span style="font-size: 20px; font-weight: bold;">
-
-                                                        <!--                                                        <t t-esc="message.record_name and message.record_name.replace('/','-') or ''"/>-->
-                                                        <t t-out="object.ticket_seq or ''"/>
-                                                        -
-                                                        <t t-out="object.issue_name or ''"/>
-
-                                                    </span>
-                                                </td>
-                                                <td valign="middle" align="right">
-                                                    <img t-att-src="'/logo.png?company=%s' % (object.team_id.company_id.id or 0)"
-                                                         style="padding: 0px; margin: 0px; height: 48px;"
-                                                         t-att-alt="'%s' % object.team_id.company_id.name"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2" style="text-align:center;">
-                                                    <hr width="100%"
-                                                        style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 32px 0px;"/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <!-- CONTENT -->
-                                <tr>
-                                    <td style="min-width: 590px;">
-                                        <div>
-                                            <h5>Dear
-                                                <t t-if="object.user_id">
-                                                    <t t-out="object.user_id.name or ''"/>
-                                                </t>
-                                            </h5>
-                                            <p>We received a support ticket from a
-                                                <strong>
-                                                    <t t-out="object.email or ''"/>
-                                                </strong>
-                                                . And it has been assigned to you.
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Below are the details of the ticket:</strong>
-                                                <br/>
-                                                <br/>
-                                                <strong>Ticket Creation Date:</strong>
-                                                <t t-esc="object.create_date.strftime('%Y-%m-%d %H:%M') if object.create_date else ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket ID:</strong>
-                                                <t t-out="object.ticket_seq or ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket Subject:</strong>
-                                                <t t-out="object.issue_name or ''"/>
-
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Priority:</strong>
-                                                <t t-out="object.priority or ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Email Body (Description):</strong>
-                                                <t t-out="object.help_description or ''"/>
-                                                <br/>
-                                                <br/>
-
-
-                                                <div style="margin-top: 20px;">
-                                                    <a t-attf-href="/my/ticket/{{ object.id }}"
-                                                       target="_blank"
-                                                       style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
-                                                        View Ticket
-                                                    </a>
-                                                </div>
-
-                                                <br/>
-                                                Thank you,
-                                                <br/>
-
-                                                <!--                    <br/>-->
-                                                <!--                    <t t-out="object.team_id.name or ''"/>-->
-                                            </p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- FOOTER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;font-size:11px;">
-                                        <hr width="100%"
-                                            style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
-                                        <!--                                        <b t-esc="company.name"/>-->
-                                        <b t-out="object.team_id.company_id.name or ''"/>
-                                        <br/>
-                                        <div style="color: #999999;">
-                                            <t t-esc="object.team_id.company_id.phone"/>
-                                            <t t-if="object.team_id.company_id.email">|
-                                                <a t-att-href="'mailto:%s' % object.team_id.company_id.email"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.email"/>
-                                                </a>
-                                            </t>
-                                            <t t-if="object.team_id.company_id.website">|
-                                                <a t-att-href="'%s' % object.team_id.company_id.website"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.website"/>
-                                                </a>
-                                            </t>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <!-- POWERED BY -->
-                <tr>
-                    <td align="center" style="min-width: 590px;">
-                        Powered by
-                        <a target="_blank" href="https://www.odoo.com?utm_source=db&amp;utm_medium=email"
-                           style="color: #875A7B;">Odoo
-                        </a>
-                    </td>
-                </tr>
-            </table>
-
-        </field>
-    </record>
-
-    <record id="customer_ticket_assignee_mail_template" model="mail.template">
-        <field name="name">Helpdesk Ticket: To Customer For Assignee</field>
-        <field name="subject">Your Ticket has been Assigned - {{ object.ticket_seq }}</field>
-        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}</field>
-        <field name="email_to">{{ (object.partner_id.email_formatted or object.email) }}</field>
-        <field name="reply_to">{{ object.team_id.alias_name }} @ {{ object.team_id.alias_domain }}</field>
-        <field name="model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
-        <field name="auto_delete" eval="False"/>
-        <field name="body_html" type="html">
-            <table border="0" cellpadding="0" cellspacing="0"
-                   style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
-                <tr>
-                    <td align="center">
-                        <table border="0" cellpadding="0" cellspacing="0" width="590"
-                               style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
-                            <tbody>
-                                <!-- HEADER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%"
-                                               style="background-color: white; padding: 0; border-collapse:separate;">
-                                            <tr>
-                                                <td valign="middle">
-                                                    <span style="font-size: 10px;">Your Helpdesk Ticket
-                                                        <!--                                                        <t t-esc="model_description or 'document'"/>-->
-
-                                                    </span>
-                                                    <br/>
-                                                    <span style="font-size: 20px; font-weight: bold;">
-
-                                                        <!--                                                        <t t-esc="message.record_name and message.record_name.replace('/','-') or ''"/>-->
-                                                        <t t-out="object.ticket_seq or ''"/>
-                                                        -
-                                                        <t t-out="object.issue_name or ''"/>
-
-                                                    </span>
-                                                </td>
-                                                <td valign="middle" align="right">
-                                                    <img t-att-src="'/logo.png?company=%s' % (object.team_id.company_id.id or 0)"
-                                                         style="padding: 0px; margin: 0px; height: 48px;"
-                                                         t-att-alt="'%s' % object.team_id.company_id.name"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2" style="text-align:center;">
-                                                    <hr width="100%"
-                                                        style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 32px 0px;"/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <!-- CONTENT -->
-                                <tr>
-                                    <td style="min-width: 590px;">
-                                        <div>
-                                            <h5>Dear
-                                                <t t-if="object.partner_id">
-                                                    <t t-out="object.partner_id.name or ''"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <t t-out="object.user_id.name or ''"/>
-                                                </t>
-                                            </h5>
-                                            <p>Your ticket has been assigned to the Support person.
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Below are the details of the ticket:</strong>
-                                                <br/>
-                                                <br/>
-                                                <strong>Ticket Creation Date:</strong>
-                                                <t t-esc="object.create_date.strftime('%Y-%m-%d %H:%M') if object.create_date else ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket ID:</strong>
-                                                <t t-out="object.ticket_seq or ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket Subject:</strong>
-                                                <t t-out="object.issue_name or ''"/>
-
-                                                <br/>
-                                                <br/>
-
-
-                                                <strong>Email Body (Description):</strong>
-                                                <t t-out="object.help_description or ''"/>
-                                                <br/>
-                                                <br/>
-
-
-                                                <div style="margin-top: 20px;">
-                                                    <a t-attf-href="/my/ticket/{{ object.id }}"
-                                                       target="_blank"
-                                                       style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
-                                                        View Ticket
-                                                    </a>
-                                                </div>
-
-                                                <br/>
-                                                Thank you,
-                                                <br/>
-
-                                                <br/>
-                                                <t t-out="object.team_id.name or ''"/>
-                                            </p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- FOOTER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;font-size:11px;">
-                                        <hr width="100%"
-                                            style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
-                                        <!--                                        <b t-esc="company.name"/>-->
-                                        <b t-out="object.team_id.company_id.name or ''"/>
-                                        <br/>
-                                        <div style="color: #999999;">
-                                            <t t-esc="object.team_id.company_id.phone"/>
-                                            <t t-if="object.team_id.company_id.email">|
-                                                <a t-att-href="'mailto:%s' % object.team_id.company_id.email"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.email"/>
-                                                </a>
-                                            </t>
-                                            <t t-if="object.team_id.company_id.website">|
-                                                <a t-att-href="'%s' % object.team_id.company_id.website"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.website"/>
-                                                </a>
-                                            </t>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <!-- POWERED BY -->
-                <tr>
-                    <td align="center" style="min-width: 590px;">
-                        Powered by
-                        <a target="_blank" href="https://www.odoo.com?utm_source=db&amp;utm_medium=email"
-                           style="color: #875A7B;">Odoo
-                        </a>
-                    </td>
-                </tr>
-            </table>
-
-        </field>
-    </record>
-
-    <record id="ticket_stage_change_mail_template" model="mail.template">
-        <field name="name">Helpdesk Ticket: Ticket Stage Change</field>
-        <field name="subject">Your Ticket {{ object.ticket_seq }} has been {{ object.stage_id.name }}</field>
-        <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}</field>
-        <field name="email_to">{{ (object.partner_id.email_formatted or object.email) }}</field>
-        <field name="reply_to">{{ object.team_id.alias_name }} @ {{ object.team_id.alias_domain }}</field>
-        <field name="model_id" ref="helpdesk_basic.model_helpdesk_ticket"/>
-        <field name="auto_delete" eval="False"/>
-        <field name="body_html" type="html">
-            <table border="0" cellpadding="0" cellspacing="0"
-                   style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
-                <tr>
-                    <td align="center">
-                        <table border="0" cellpadding="0" cellspacing="0" width="590"
-                               style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
-                            <tbody>
-                                <!-- HEADER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%"
-                                               style="background-color: white; padding: 0; border-collapse:separate;">
-                                            <tr>
-                                                <td valign="middle">
-                                                    <span style="font-size: 10px;">Your Helpdesk Ticket
-                                                        <!--                                                        <t t-esc="model_description or 'document'"/>-->
-
-                                                    </span>
-                                                    <br/>
-                                                    <span style="font-size: 20px; font-weight: bold;">
-
-                                                        <!--                                                        <t t-esc="message.record_name and message.record_name.replace('/','-') or ''"/>-->
-                                                        <t t-out="object.ticket_seq or ''"/>
-                                                        -
-                                                        <t t-out="object.issue_name or ''"/>
-
-                                                    </span>
-                                                </td>
-                                                <td valign="middle" align="right">
-                                                    <img t-att-src="'/logo.png?company=%s' % (object.team_id.company_id.id or 0)"
-                                                         style="padding: 0px; margin: 0px; height: 48px;"
-                                                         t-att-alt="'%s' % object.team_id.company_id.name"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2" style="text-align:center;">
-                                                    <hr width="100%"
-                                                        style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 32px 0px;"/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <!-- CONTENT -->
-                                <tr>
-                                    <td style="min-width: 590px;">
-                                        <div>
-                                            <h5>Dear
-                                                <t t-if="object.partner_id">
-                                                    <t t-out="object.partner_id.name or ''"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <t t-out="object.user_id.name or ''"/>
-                                                </t>
-                                            </h5>
-                                            <p>Your ticket has been
-                                                <t t-out="object.stage_id.name or ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                If you have any additional concerns to add or if there are updates on
-                                                your end, please feel free to
-                                                reply to this email, including the ticket number in the subject line.
-                                                This will help us expedite the
-                                                resolution process.
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Below are the details of the ticket:</strong>
-                                                <br/>
-                                                <br/>
-                                                <strong>Ticket Creation Date:</strong>
-                                                <t t-esc="object.create_date.strftime('%Y-%m-%d %H:%M') if object.create_date else ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket ID:</strong>
-                                                <t t-out="object.ticket_seq or ''"/>
-                                                <br/>
-                                                <br/>
-
-                                                <strong>Ticket Subject:</strong>
-                                                <t t-out="object.issue_name or ''"/>
-
-                                                <br/>
-                                                <br/>
-
-
-                                                <div style="margin-top: 20px;">
-                                                    <a t-attf-href="/my/ticket/{{ object.id }}"
-                                                       target="_blank"
-                                                       style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
-                                                        View Ticket
-                                                    </a>
-                                                </div>
-
-                                                <br/>
-                                                Thank you,
-                                                <br/>
-
-                                                <br/>
-                                                <t t-out="object.team_id.name or ''"/>
-                                            </p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- FOOTER -->
-                                <tr>
-                                    <td align="center" style="min-width: 590px;font-size:11px;">
-                                        <hr width="100%"
-                                            style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
-                                        <!--                                        <b t-esc="company.name"/>-->
-                                        <b t-out="object.team_id.company_id.name or ''"/>
-                                        <br/>
-                                        <div style="color: #999999;">
-                                            <t t-esc="object.team_id.company_id.phone"/>
-                                            <t t-if="object.team_id.company_id.email">|
-                                                <a t-att-href="'mailto:%s' % object.team_id.company_id.email"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.email"/>
-                                                </a>
-                                            </t>
-                                            <t t-if="object.team_id.company_id.website">|
-                                                <a t-att-href="'%s' % object.team_id.company_id.website"
-                                                   style="text-decoration:none; color: #999999;">
-                                                    <t t-esc="object.team_id.company_id.website"/>
-                                                </a>
-                                            </t>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <!-- POWERED BY -->
-                <tr>
-                    <td align="center" style="min-width: 590px;">
-                        Powered by
-                        <a target="_blank" href="https://www.odoo.com?utm_source=db&amp;utm_medium=email"
-                           style="color: #875A7B;">Odoo
-                        </a>
-                    </td>
-                </tr>
-            </table>
-
-        </field>
-    </record>
-
-
 </odoo>

@@ -11,6 +11,7 @@
     'website': 'www.odoo.com',
     'depends': ['base_setup', 'mail', 'utm', 'rating', 'web_tour', 'resource',
                 'portal', 'digest', 'portal_rating'],
+    'license': 'OPL-1',
     'data': [
         'security/helpdesk_security_view.xml',
         'security/ir.model.access.csv',
@@ -28,6 +29,7 @@
         'views/res_config_setting_view.xml',
         'views/raring_template_view.xml',
         'report/helpdesk_report_view.xml',
+        # 'report/reports.xml',
     ],
     'demo': [
         'demo/helpdesk_demo.xml',

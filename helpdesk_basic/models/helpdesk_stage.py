@@ -18,7 +18,7 @@ class HelpdeskStage(models.Model):
     sequence = fields.Integer('Sequence', default=10)
     stage_type = fields.Selection([('draft', 'Draft'), ('new', 'New'),
                                    ('in_progress', 'In Progress'),
-                                   ('done', 'Done'),('cancel', 'Cancelled')], string='Stage Type',
+                                   ('done', 'Done')], string='Stage Type',
                                    required=True)
     is_close = fields.Boolean(
         'Closing Stage', 
@@ -44,7 +44,6 @@ class HelpdeskStage(models.Model):
     legend_normal = fields.Char(
         'Grey Kanban Label', default=lambda s: _('In Progress'), translate=True, required=True,
         help='Override the default value displayed for the normal state for kanban selection, when the task or issue is in that stage.')
-    mail_stage_tmpl_id = fields.Many2one('mail.template', string="Stage Change Mail Template", domain=[('model_id.model', '=', 'helpdesk.ticket')])
 
     def unlink(self):
         stages = self

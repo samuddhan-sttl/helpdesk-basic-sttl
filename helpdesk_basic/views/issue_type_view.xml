@@ -17,7 +17,8 @@
                         </group>
                     </group>
                     <notebook>
-                        <page name="reporting_template" string="Reporting Template Content">
+                        <page name="reporting_template"
+                              string="Reporting Template Content">
                             <field name="reporting_template"/>
                         </page>
                     </notebook>
@@ -43,8 +44,10 @@
         <field name="model">issue.type</field>
         <field name="arch" type="xml">
             <search string="Search for Issue Type">
-                <field name="name" string="Name" filter_domain="[('name','ilike',self)]"/>
-                <field name="code" string="Code" filter_domain="[('code','ilike',self)]"/>
+                <field name="name" string="Name"
+                       filter_domain="[('name','ilike',self)]"/>
+                <field name="code" string="Code"
+                       filter_domain="[('code','ilike',self)]"/>
             </search>
         </field>
     </record>
@@ -72,7 +75,8 @@
                                         </div>
                                     </div>
                                     <div class="o_kanban_manage_button_section">
-                                        <a class="o_kanban_manage_toggle_button" href="#">
+                                        <a class="o_kanban_manage_toggle_button"
+                                           href="#">
                                             <i class="fa fa-ellipsis-v" title="xyz"/>
                                         </a>
                                     </div>
@@ -81,15 +85,23 @@
                             <div class="container o_kanban_card_content">
                                 <div class="row">
                                     <div class="issue_type_css col-xs-6 o_kanban_primary_left">
-                                        <button type="object" name="action_tickets" class="btn btn-primary btn-sm o_invoice_new">
+                                        <button type="object"
+                                                name="action_create_new"
+                                                class="btn btn-primary btn-sm o_invoice_new"
+                                                context="{'default_issue_type_id': active_id}">
                                             <span>Ticket</span>
                                         </button>
                                     </div>
                                     <div class="col-xs-6 o_kanban_primary_right">
-                                        <div class="row" t-foreach="JSON.parse(record.stages.raw_value)" t-as="stage">
-                                            <t t-set="context" t-value="stage['context']"/>
+                                        <div class="row"
+                                             t-foreach="JSON.parse(record.stages.raw_value)"
+                                             t-as="stage">
+                                            <t t-set="context"
+                                               t-value="stage['context']"/>
                                             <div class="col-xs-6">
-                                                <a name="%(action_helpdesk_view)d" type="action" t-att-data-context="context">
+                                                <a name="%(action_helpdesk_view)d"
+                                                   type="action"
+                                                   t-att-data-context="context">
                                                     <strong>
                                                         <span t-esc="stage['key']"/>
                                                     </strong>
@@ -102,12 +114,16 @@
                                 </div>
                             </div>
                             <div class="container o_kanban_card_content">
-                                <field name="kanban_dashboard_graph" t-att-graph_type="'bar'" widget="dashboard_graph"/>
+                                <field name="kanban_dashboard_graph"
+                                       t-att-graph_type="'bar'"
+                                       widget="dashboard_graph"/>
                             </div>
                             <div class="container dropdown-menu o_kanban_card_manage_pane" role="menu">
-                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                <div t-if="widget.editable"
+                                     class="o_kanban_card_manage_settings row">
                                     <div class="col-xs-8">
-                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        <ul class="oe_kanban_colorpicker"
+                                            data-field="color"/>
                                     </div>
                                     <div class="col-xs-4 text-right">
                                         <a type="edit">Settings</a>
@@ -129,6 +145,8 @@
         <field name="search_view_id" ref="view_issue_type_search"/>
     </record>
 
-    <menuitem id="issue_type_menu" parent="menu_helpdesk_config" action="action_issue_type" sequence="2" groups="helpdesk_basic.helpdesk_group_manager"/>
+    <menuitem id="issue_type_menu" parent="menu_helpdesk_config"
+              action="action_issue_type" sequence="2"
+              groups="helpdesk_basic.helpdesk_group_manager"/>
 
 </odoo>
