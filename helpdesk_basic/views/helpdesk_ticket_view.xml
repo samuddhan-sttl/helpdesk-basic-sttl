@@ -51,8 +51,8 @@
                             <field name="issue_type_id"
                                    options='{"no_open": True}'/>
                             <field name="tag_ids" widget="many2many_tags"/>
-                            <field name="contact_type"/>
-                            <field name="business_impact" widget="boolean_toggle" />
+                            <field name="contact_type" invisible="1"/>
+                            <field name="business_impact" widget="boolean_toggle" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -108,7 +108,7 @@
                 <field name="partner_id" string="Related Partner"/>
                 <field name="stage_id" string="Status"/>
                 <field name="contact_type" string="Contact Type"/>
-                <field name="business_impact" string="Business Impact" />
+                <field name="business_impact" string="Business Impact"/>
                 <filter string="New" name="new" domain="[('stage_id.stage_type','=','new')]"/>
                 <filter string="In Progress" name="in_progress" domain="[('stage_id.stage_type','=','in_progress')]"/>
                 <filter string="Closed" name="closed" domain="[('stage_id.stage_type','=','done')]"/>
@@ -262,7 +262,7 @@
         <field name="name">Tickets</field>
         <field name="res_model">helpdesk.ticket</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="domain">[('team_id', '=', active_id),('stage_id.stage_type','!=','done')]</field>
+        <field name="domain">[('stage_id.stage_type','!=','done')]</field>
             <field name="context">{
                 'pivot_row_groupby': ['user_id'],
                 'default_team_id': active_id,

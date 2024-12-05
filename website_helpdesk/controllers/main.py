@@ -42,10 +42,15 @@ class HelpdeskTicket(http.Controller):
                 website=True)
     def issue_submitted(self, **post):
         print("issue_submitted >>>>>>>>>>>>>", self, post)
-        if 'issue_type_id' in post:
-            is_id = post['issue_type_id']
-            type_id = int(is_id)
-            team = request.env['helpdesk.team'].sudo().search([('issue_type_ids', '=', type_id)])
+        # if 'issue_type_id' in post:
+        #     is_id = post['issue_type_id']
+        #     type_id = int(is_id)
+        #     team = request.env['helpdesk.team'].sudo().search([('issue_type_ids', '=', type_id)])
+        if 'team_id' in post:
+            post["team_id"] = int(post["team_id"])
+            team_id = post['team_id']
+            team = request.env['helpdesk.team'].sudo().search(
+                [('id', '=', team_id)])
         attachment_obj = request.env['ir.attachment']
         post_data = copy.deepcopy(post)
         for k in post:
