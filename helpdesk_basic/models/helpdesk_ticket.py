@@ -58,8 +58,8 @@ class HelpdeskTicket(models.Model):
         'res.users', string='Assigned to',tracking=True)
     color = fields.Integer(string='Color Index')
     ticket_seq = fields.Char('Ticket No', default='New', copy=False)
-    priority = fields.Selection([('1', 'Low'), ('2', 'Medium'),
-                                 ('3', 'High')], default='1')
+    priority = fields.Selection([('0', 'Very Low'), ('1', 'Low'), ('2', 'Medium'),
+                                 ('3', 'High')], default='0')
     partner_id = fields.Many2one('res.partner', string='Related Partner', tracking=True)
     partner_name = fields.Char('Customer Name')
     email = fields.Char(string='Email', required=True)
