@@ -10,7 +10,7 @@
     'author': 'OdooHQ',
     'website': 'www.odoo.com',
     'depends': ['base_setup', 'mail', 'utm', 'rating', 'web_tour', 'resource',
-                'portal', 'digest', 'portal_rating'],
+                'portal', 'digest', 'portal_rating', 'hr'],
     'license': 'OPL-1',
     'data': [
         'security/helpdesk_security_view.xml',
@@ -28,6 +28,7 @@
         'views/helpdesk_sla_policy_view.xml',
         'views/res_config_setting_view.xml',
         'views/raring_template_view.xml',
+        'views/hr_employee_inherit.xml',
         'report/helpdesk_report_view.xml',
         # 'report/reports.xml',
     ],
