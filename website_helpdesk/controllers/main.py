@@ -41,11 +41,6 @@ class HelpdeskTicket(http.Controller):
     @http.route(['/issue-submitted'], type='http', auth='user',
                 website=True)
     def issue_submitted(self, **post):
-        print("issue_submitted >>>>>>>>>>>>>", self, post)
-        # if 'issue_type_id' in post:
-        #     is_id = post['issue_type_id']
-        #     type_id = int(is_id)
-        #     team = request.env['helpdesk.team'].sudo().search([('issue_type_ids', '=', type_id)])
         if 'team_id' in post:
             post["team_id"] = int(post["team_id"])
             team_id = post['team_id']
@@ -56,11 +51,10 @@ class HelpdeskTicket(http.Controller):
         for k in post:
             if k=='file' or 'file_data_' in k:
                 post_data.pop(k)
-        print("post_data >>>>>>>>>>>>>>>>>", post_data)
         if post_data.get('business_impact'):
             post_data['business_impact'] = post_data.get('business_impact') == 'True' and True or False
         ticket = request.env['helpdesk.ticket'].sudo().create(post_data)
-        print("ticket >>>>>>>>>>>>>", dir(ticket))
+
         if hasattr(ticket, '_onchange_partner'):
             getattr(ticket, '_onchange_partner')()
         for rec in team:
@@ -81,13 +75,19 @@ class HelpdeskTicket(http.Controller):
                         ticket.user_id = member.id
         if request.env.user.partner_id:
             ticket.partner_id = request.env.user.partner_id or False
+
         values = {'ticket_seq': ticket.ticket_seq}
         file_data = [key for key in post if 'file_data_' in key]
+        ticket_sequence = ticket.ticket_seq
+        if not ticket_sequence:
+            ticket_sequence = f"ticket_{ticket.id}"
+        
         for name in file_data:
+            new_filename = f"{ticket_sequence}"
             attachment_obj.sudo().create(
-                {'name': name,
+                {'name': new_filename,
                  'res_model': 'helpdesk.ticket',
-                 'res_id': ticket,
+                 'res_id': ticket.id,
                  'res_name': post.get('name'),
                  'datas': post.get(name)})
         return request.render("website_helpdesk.issue_submitted", values)
@@ -107,7 +107,6 @@ class HelpdeskTicket(http.Controller):
 class CustomerPortal(CustomerPortal):
 
     def _prepare_home_portal_values(self, counters=None):
-        # values = super(CustomerPortal, self)._prepare_home_portal_values(counters)
         values = super()._prepare_home_portal_values(counters)
         user = request.env.user
         ticket = request.env['helpdesk.ticket'].sudo().search_count(['|', ('user_id', '=', user.id), ('partner_id', '=', user.partner_id.id)])
@@ -162,9 +161,7 @@ class CustomerPortal(CustomerPortal):
 
     @http.route(['/my/tickets', '/my/tickets/page/<int:page>'], type='http', auth="user", website=True)
     def portal_my_ticket(self, page=1, ticket_id=None, sortby=None, filterby=None, groupby=None, search=None, search_in='all', **kw):
-        print("portal_my_ticket >>>>>>>>>>>>>>>>>>", self, page, ticket_id, sortby, filterby, groupby, search, search_in, kw)
         values = self._prepare_portal_layout_values()
-        print("values >>>>>>>>>>>>>>>>", values)
         domain = []
         searchbar_sortings = {
             'id': {'label': _('Newest'), 'order': 'id desc'},
@@ -222,7 +219,6 @@ class CustomerPortal(CustomerPortal):
 
         domain += searchbar_filters[filterby]['domain']
         tickets = request.env['helpdesk.ticket'].sudo().search(domain, order=order)
-        print("tickets >>>>>>>>>>>>>>", tickets)
         ticket_count = tickets.sudo().search_count(domain)
         pager = portal_pager(
             url="/my/tickets",
@@ -248,7 +244,6 @@ class CustomerPortal(CustomerPortal):
             'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
             'filterby': filterby,
         })
-        print("values >>>>>>>>>>>>>>", values)
         return request.render("website_helpdesk.my_tickets", values)
 
     @http.route(['/my/ticket/<int:ticket_id>'], type='http',

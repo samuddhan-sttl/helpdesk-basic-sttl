@@ -65,7 +65,7 @@ class HelpdeskTicket(models.Model):
     email = fields.Char(string='Email', required=True)
     issue_type_id = fields.Many2one('issue.type', string='Issue Type', store=True)
     start_date = fields.Datetime(
-            string='Ticket Created Date', default=fields.Datetime.now, tracking=True)
+            string='Ticket Created Date', default=fields.Datetime.now, tracking=True, readonly=True)
     end_date = fields.Datetime(string='Ticket Close Date', tracking=True)
     attachment_ids = fields.One2many('ir.attachment', compute='_compute_attachments', string="Main Attachments", help="Attachment that don't come from message.")
     attachments_count = fields.Integer(compute='_compute_attachments',
@@ -91,7 +91,7 @@ class HelpdeskTicket(models.Model):
     close_description = fields.Text(tracking=True)
 
     resolved_date = fields.Datetime(string="Resolved Date", compute='_compute_resolved_date')
-    contact_number = fields.Char(string='Contact Number')
+    contact_number = fields.Char(string='Contact Number', readonly=True)
 
 
     @api.depends('last_date', 'stage_id')
