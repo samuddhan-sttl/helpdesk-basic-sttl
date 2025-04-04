@@ -22,7 +22,7 @@ class HelpdeskTicket(http.Controller):
         config = request.env['res.config.settings'].sudo().search([])
         get_param = request.env['ir.config_parameter'].sudo().get_param
         website_form = get_param('helpdesk_basic.use_website_form')
-        helpdesk_team = request.env['helpdesk.team'].sudo().search([('customer_ids', 'in', request.env.user.partner_id.id)])
+        helpdesk_team = request.env['helpdesk.team'].sudo().search([])
         post.update({
             'assignee': request.env.user,
             'email': request.env.user.partner_id.email or '',

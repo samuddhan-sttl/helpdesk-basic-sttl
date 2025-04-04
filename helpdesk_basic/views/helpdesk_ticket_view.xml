@@ -20,15 +20,15 @@
                             title="Archived" bg_color="bg-danger" 
                             attrs="{'invisible': [('active', '=', True)]}" />
                     </div>
-                    <div class="oe_title">
+                    <div>
                         <h1>
                             <field name="ticket_seq" readonly="1"/>
                         </h1>
                         <label for="issue_name" class="oe_edit_only"/>
-                        <h1>
+                        <h3>
                             <field name="issue_name" placeholder="Issue Details"
-                                   required="True"/>
-                        </h1>
+                                   required="True" class="text-break"/>
+                        </h3>
                     </div>
                     <group>
                         <group>

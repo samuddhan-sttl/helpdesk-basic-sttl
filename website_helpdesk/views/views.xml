@@ -115,9 +115,10 @@
             <t t-if="tickets" t-call="portal.portal_table">
                 <thead>
                     <tr class="active">
-                        <th>Ticket Sequence #</th>
-                        <th>Name</th>
+                        <th width="20%">Ticket Sequence #</th>
+                        <th width="50%">Subject</th>
                         <th>Status</th>
+                        <th>Date and Time</th>
                     </tr>
                 </thead>
                 <t t-foreach="tickets" t-as="ticket">
@@ -132,6 +133,9 @@
                         </td>
                         <td>
                             <t t-raw="ticket.stage_id.name" />
+                        </td>
+                        <td>
+                            <t t-raw="ticket.start_date" />
                         </td>
                     </tr>
                 </t>

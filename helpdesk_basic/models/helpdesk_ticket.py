@@ -50,7 +50,7 @@ class HelpdeskTicket(models.Model):
     uid = fields.Many2one('res.users', default=lambda self: self.env.uid)
     issue_name = fields.Char(string='Subject', required=True, index=True, tracking=True)
     team_id = fields.Many2one('helpdesk.team', string='Helpdesk Team', default=_default_team_id, tracking=True)
-    help_description = fields.Text()
+    help_description = fields.Text()    
     active = fields.Boolean(default=True)
     tag_ids = fields.Many2many('helpdesk.tag', string='Tags')
     company_id = fields.Many2one(related='team_id.company_id', string='Company', store=True, readonly=True)

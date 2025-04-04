@@ -14,6 +14,7 @@
         'views/pages/helpdesk_register_website_view.xml',
         'views/pages/helpdesk_website_view.xml',
         'views/views.xml',
+        'views/portal_layout_inherit.xml'
     ],
     'assets': {
         'web.assets_frontend': [

@@ -20,10 +20,10 @@
                         <t t-out="object.user_id.name or ''" contenteditable="false" data-oe-t-inline="true"></t>
                     </t>
                 </h2>
-                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Your request has been received and is being
+                <!-- <p style="margin:0px 0 12px 0;box-sizing:border-box;">Your request has been received and is being
                     reviewed by our <t t-out="object.team_id.name or ''" contenteditable="false" data-oe-t-inline="true"></t>.
                     <br/>
-                </p>
+                </p> -->
                 <p style="margin:0px 0 12px 0;box-sizing:border-box;">Thank you for reaching out to us. We have
                     received your request, and a ticket has been successfully created to address your inquiry.
                     Please find the details of your ticket below:
@@ -44,18 +44,18 @@
                     you provided, and we will strive to address your concerns as promptly as possible. Please be
                     assured that your request is important to us, and we appreciate your patience.
                 </p>
-                <p style="margin:0px 0 12px 0;box-sizing:border-box;">If you have any additional information to add
+                <!-- <p style="margin:0px 0 12px 0;box-sizing:border-box;">If you have any additional information to add
                     or if there are updates on your end, please feel free to reply to this email, including the
                     ticket number in the subject line. This will help us expedite the resolution process.
-                </p>
-                <p style="margin:0px 0 12px 0;box-sizing:border-box;">We understand the importance of your request
+                </p> -->
+                <!-- <p style="margin:0px 0 12px 0;box-sizing:border-box;">We understand the importance of your request
                     and will make every effort to provide a comprehensive and timely response. Our support team will
                     reach out to you shortly with further updates.
-                </p>
-                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Thank you for choosing Silver Touch<br/></p>
-                <p style="margin:0px 0 12px 0;box-sizing:border-box;">We value your business and look forward to
+                </p> -->
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Thank you for choosing Accenture<br/></p>
+                <!-- <p style="margin:0px 0 12px 0;box-sizing:border-box;">We value your business and look forward to
                     assisting you.
-                </p>
+                </p> -->
                 <p style="margin:0px 0 12px 0;box-sizing:border-box;">
                     <br/>
                 </p>
@@ -78,7 +78,7 @@
 
     <record id="ticket_confirm_mail_template" model="mail.template">
         <field name="name">Helpdesk Ticket : Confirm By Email</field>
-        <field name="subject">Confirm Ticket Mail</field>
+        <field name="subject">Ticket Resolution Status - {{ (object.stage_id.name) }} - {{(object.ticket_seq)}}</field>
         <field name="email_from">{{ (object.user_id.company_id.email_formatted or user.company_id.email_formatted) }}</field>
         <field name="email_to">{{ (object.partner_id.email if object.partner_id.email and object.partner_id.email == object.email else object.email) }}</field>
         <field name="partner_to">{{ object.partner_id.id if object.partner_id.email and object.partner_id.email == object.email else False }}</field>
@@ -93,15 +93,50 @@
                         <t t-out="object.user_id.name or ''"/>
                     </t>
                 </h2>
-                <p>Your request odoo has been Confirm by our <t t-out="object.team_id.name or ''"/>.<br/><br/>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">We wanted to inform you that your ticket <t t-out="object.ticket_seq or ''"/> has been marked as 
+                <t t-out="object.stage_id.name or ''"/> by the Accenture Support Team. 
+                If you believe your issue remains unresolved, please follow these steps:
+                </p>
+                <ol>
+                    <li>
+                         <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                            Log in to the ticketing tool.
+                        </p>
+                    </li>
+                    <li>
+                        <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                            Navigate to the “My Tickets” section.
+                        </p>
+                    </li>
+                    <li>
+                        <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                            Click on the ticket number associated with your concern.
+                        </p>
+                    </li>
+                    <li>
+                         <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                            Select the “Open Ticket” option.
+                        </p>
+                    </li>
+                    <li>
+                         <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                            Provide your remarks in the box provided, detailing the outstanding issue.
+                        </p>
+                    </li>
+                </ol>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Our team is committed to ensuring your concerns 
+                are addressed promptly and effectively. Thank you for reaching out to us.
+                </p>
+                
                 <div style="margin-top: 20px;">
                     <a t-attf-href="/my/ticket/{{ object.id }}"
                        target="_blank"
                        style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
                         View Ticket
-                    </a></div><br/>
+                    </a>
+                </div><br/>
                 Thank you,<br/><br/>
-                <t t-out="object.team_id.name or ''"/></p>
+                <t t-out="object.team_id.name or ''"/>
             </div>
         </field>
     </record>
